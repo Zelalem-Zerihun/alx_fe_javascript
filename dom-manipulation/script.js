@@ -31,10 +31,16 @@ const newQuoteForm = document.getElementById("newQuoteForm");
 const addQuoteButton = document.getElementById("addQuoteButton");
 const exportQuotesButton = document.getElementById("exportQuotes");
 const importFileInput = document.getElementById("importFile");
+const categoryFilter = document.getElementById("categoryFilter");
 
 function showRandomQuote() {
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  const randomQuote = quotes[randomIndex];
+  const filteredQuotes = getFilteredQuotes();
+  if (filteredQuotes.length === 0) {
+    quoteDisplay.textContent = "No quotes available for the selected category.";
+    return;
+  }
+  const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+  const randomQuote = filteredQuotes[randomIndex];
   quoteDisplay.textContent = `${randomQuote.text} (Category: ${randomQuote.category})`;
   sessionStorage.setItem("lastQuote", JSON.stringify(randomQuote));
 }
@@ -76,6 +82,7 @@ function addQuote() {
     const newQuote = { text: newQuoteText, category: newQuoteCategory };
     quotes.push(newQuote);
     localStorage.setItem("quotes", JSON.stringify(quotes));
+    populateCategories();
     showRandomQuote();
     newQuoteForm.style.display = "none";
     newQuoteForm.innerHTML = "";
@@ -83,6 +90,28 @@ function addQuote() {
     alert("Please enter both a quote and a category.");
   }
 }
+
+function populateCategories() {
+  const categories = ["all", ...new Set(quotes.map((q) => q.category))];
+  categoryFilter.innerHTML = categories
+    .map((cat) => `<option value="${cat}">${cat}</option>`)
+    .join("\n");
+  categoryFilter.value = localStorage.getItem("selectedCategory") || "all";
+}
+
+function getFilteredQuotes() {
+  const selectedCategory = categoryFilter.value;
+  localStorage.setItem("selectedCategory", selectedCategory);
+  return selectedCategory === "all"
+    ? quotes
+    : quotes.filter((q) => q.category === selectedCategory);
+}
+
+categoryFilter.addEventListener("change", () => {
+  showRandomQuote();
+});
+
+populateCategories();
 
 exportQuotesButton.addEventListener("click", () => {
   const dataStr = JSON.stringify(quotes, null, 2);
@@ -105,6 +134,7 @@ importFileInput.addEventListener("change", (event) => {
       if (Array.isArray(importedQuotes)) {
         quotes.push(...importedQuotes);
         localStorage.setItem("quotes", JSON.stringify(quotes));
+        populateCategories();
         alert("Quotes imported successfully!");
       } else {
         alert("Invalid JSON format.");
