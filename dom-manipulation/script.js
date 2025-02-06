@@ -149,3 +149,21 @@ importFileInput.addEventListener("change", (event) => {
 function filterQuotes() {
   showRandomQuote();
 }
+
+// Simulated server interaction
+async function fetchQuotesFromServer() {
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const data = await response.json();
+  return data
+    .slice(0, 5)
+    .map((post) => ({ text: post.title, category: "Server" }));
+}
+
+async function syncQuotes() {
+  const serverQuotes = await fetchQuotesFromServer();
+  quotes.push(...serverQuotes);
+  localStorage.setItem("quotes", JSON.stringify(quotes));
+  populateCategories();
+}
+
+setInterval(syncQuotes, 30000);
