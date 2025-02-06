@@ -34,15 +34,14 @@ function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const randomQuote = quotes[randomIndex];
   quoteDisplay.textContent = randomQuote.text;
-  // Optional: Display the category
   quoteDisplay.textContent += ` (Category: ${randomQuote.category})`;
 }
 
 newQuoteButton.addEventListener("click", showRandomQuote);
-showRandomQuote(); // Display an initial quote
+showRandomQuote();
 
 function createAddQuoteForm() {
-  newQuoteForm.innerHTML = ""; // Clear previous form elements
+  newQuoteForm.innerHTML = "";
 
   const textInput = document.createElement("input");
   textInput.type = "text";
@@ -58,25 +57,26 @@ function createAddQuoteForm() {
 
   const addButton = document.createElement("button");
   addButton.textContent = "Add Quote";
-  addButton.onclick = addQuote; // Attach the addQuote function
+  addButton.onclick = addQuote;
   newQuoteForm.appendChild(addButton);
 }
 
 addQuoteButton.addEventListener("click", () => {
   newQuoteForm.style.display = "block";
-  createAddQuoteForm(); // Now calling the function, which uses createElement/appendChild
+  createAddQuoteForm();
 });
 
 function addQuote() {
-  const newQuoteText = document.getElementById("newQuoteText").value;
-  const newQuoteCategory = document.getElementById("newQuoteCategory").value;
+  const newQuoteText = document.getElementById("newQuoteText").value.trim();
+  const newQuoteCategory = document
+    .getElementById("newQuoteCategory")
+    .value.trim();
 
-  if (newQuoteText.trim() !== "" && newQuoteCategory.trim() !== "") {
-    const newQuote = { text: newQuoteText, category: newQuoteCategory };
-    quotes.push(newQuote);
+  if (newQuoteText && newQuoteCategory) {
+    quotes.push({ text: newQuoteText, category: newQuoteCategory });
     showRandomQuote();
     newQuoteForm.style.display = "none";
-    newQuoteForm.innerHTML = ""; // Clear the form after adding
+    newQuoteForm.innerHTML = "";
   } else {
     alert("Please enter both a quote and a category.");
   }
