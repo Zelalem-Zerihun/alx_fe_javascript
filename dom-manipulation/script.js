@@ -145,3 +145,7 @@ importFileInput.addEventListener("change", (event) => {
   };
   fileReader.readAsText(event.target.files[0]);
 });
+
+function filterQuotes() {
+  showRandomQuote();
+}
