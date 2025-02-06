@@ -167,3 +167,11 @@ async function syncQuotes() {
 }
 
 setInterval(syncQuotes, 30000);
+
+async function postQuoteToServer(newQuote) {
+  await fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newQuote),
+  });
+}
