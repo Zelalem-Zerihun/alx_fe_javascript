@@ -22,7 +22,10 @@ const addQuoteButton = document.getElementById("addQuoteButton");
 
 function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
-  quoteDisplay.textContent = quotes[randomIndex].text;
+  const randomQuote = quotes[randomIndex]; // Get the quote object
+  quoteDisplay.textContent = randomQuote.text; // Access the text property
+  // Optionally display the category:
+  // quoteDisplay.textContent += ` (Category: ${randomQuote.category})`;
 }
 
 newQuoteButton.addEventListener("click", showRandomQuote);
@@ -42,11 +45,11 @@ function addQuote() {
   const newQuoteCategory = document.getElementById("newQuoteCategory").value;
 
   if (newQuoteText.trim() !== "" && newQuoteCategory.trim() !== "") {
-    const newQuote = { text: newQuoteText, category: newQuoteCategory };
+    const newQuote = { text: newQuoteText, category: newQuoteCategory }; // Use object literal
     quotes.push(newQuote);
-    showRandomQuote(); // Optionally show the new quote immediately
-    newQuoteForm.style.display = "none"; // Hide the form
-    newQuoteForm.innerHTML = ""; // Clear the form
+    showRandomQuote();
+    newQuoteForm.style.display = "none";
+    newQuoteForm.innerHTML = "";
   } else {
     alert("Please enter both a quote and a category.");
   }
