@@ -42,16 +42,29 @@ newQuoteButton.addEventListener("click", showRandomQuote);
 showRandomQuote(); // Display an initial quote
 
 function createAddQuoteForm() {
-  newQuoteForm.innerHTML = `
-        <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-        <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-        <button onclick="addQuote()">Add Quote</button>
-    `;
+  newQuoteForm.innerHTML = ""; // Clear previous form elements
+
+  const textInput = document.createElement("input");
+  textInput.type = "text";
+  textInput.id = "newQuoteText";
+  textInput.placeholder = "Enter a new quote";
+  newQuoteForm.appendChild(textInput);
+
+  const categoryInput = document.createElement("input");
+  categoryInput.type = "text";
+  categoryInput.id = "newQuoteCategory";
+  categoryInput.placeholder = "Enter quote category";
+  newQuoteForm.appendChild(categoryInput);
+
+  const addButton = document.createElement("button");
+  addButton.textContent = "Add Quote";
+  addButton.onclick = addQuote; // Attach the addQuote function
+  newQuoteForm.appendChild(addButton);
 }
 
 addQuoteButton.addEventListener("click", () => {
   newQuoteForm.style.display = "block";
-  createAddQuoteForm(); // Now calling the function
+  createAddQuoteForm(); // Now calling the function, which uses createElement/appendChild
 });
 
 function addQuote() {
