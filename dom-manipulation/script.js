@@ -1,4 +1,3 @@
-// script.js
 const quotes = [
   {
     text: "The only way to do great work is to love what you do.",
@@ -12,7 +11,18 @@ const quotes = [
     text: "The future belongs to those who believe in the beauty of their dreams.",
     category: "Dreams",
   },
-  // ... more initial quotes
+  {
+    text: "Strive not to be a success, but rather to be of value.",
+    category: "Value",
+  },
+  {
+    text: "The only limit to our realization of tomorrow will be our doubts of today.",
+    category: "Doubt",
+  },
+  {
+    text: "It always seems impossible until it's done.",
+    category: "Possibility",
+  },
 ];
 
 const quoteDisplay = document.getElementById("quoteDisplay");
@@ -22,14 +32,14 @@ const addQuoteButton = document.getElementById("addQuoteButton");
 
 function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
-  const randomQuote = quotes[randomIndex]; // Get the quote object
-  quoteDisplay.textContent = randomQuote.text; // Access the text property
-  // Optionally display the category:
-  // quoteDisplay.textContent += ` (Category: ${randomQuote.category})`;
+  const randomQuote = quotes[randomIndex];
+  quoteDisplay.textContent = randomQuote.text;
+  // Optional: Display the category
+  quoteDisplay.textContent += ` (Category: ${randomQuote.category})`;
 }
 
 newQuoteButton.addEventListener("click", showRandomQuote);
-showRandomQuote(); // Display initial quote
+showRandomQuote(); // Display an initial quote
 
 addQuoteButton.addEventListener("click", () => {
   newQuoteForm.style.display = "block";
@@ -45,11 +55,11 @@ function addQuote() {
   const newQuoteCategory = document.getElementById("newQuoteCategory").value;
 
   if (newQuoteText.trim() !== "" && newQuoteCategory.trim() !== "") {
-    const newQuote = { text: newQuoteText, category: newQuoteCategory }; // Use object literal
+    const newQuote = { text: newQuoteText, category: newQuoteCategory };
     quotes.push(newQuote);
     showRandomQuote();
     newQuoteForm.style.display = "none";
-    newQuoteForm.innerHTML = "";
+    newQuoteForm.innerHTML = ""; // Clear the form after adding
   } else {
     alert("Please enter both a quote and a category.");
   }
