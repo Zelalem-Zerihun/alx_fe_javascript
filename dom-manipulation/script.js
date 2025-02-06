@@ -41,13 +41,17 @@ function showRandomQuote() {
 newQuoteButton.addEventListener("click", showRandomQuote);
 showRandomQuote(); // Display an initial quote
 
-addQuoteButton.addEventListener("click", () => {
-  newQuoteForm.style.display = "block";
+function createAddQuoteForm() {
   newQuoteForm.innerHTML = `
         <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
         <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
         <button onclick="addQuote()">Add Quote</button>
     `;
+}
+
+addQuoteButton.addEventListener("click", () => {
+  newQuoteForm.style.display = "block";
+  createAddQuoteForm(); // Now calling the function
 });
 
 function addQuote() {
